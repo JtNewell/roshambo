@@ -1,51 +1,75 @@
-// Define Variables
-// -computerInput
-// -userInput
+var playerScore = 0;
+var computerScore = 0;
+var draw = 0;
 
+// Takes players selection and returns it in lowercase
 
+function playerSelect () {
+       let playerSelection = prompt("Choose Rock, Paper, or Scissors");
+       return playerSelection.toLowerCase();
+}
 
-/*What conditions exist in this game?
-    - All the possible combinations
-
-            *WIN*           
-     -Rock > Scissors
-     -Paper > Rock
-     -Scissors > Paper
-
-            *LOSE*
-     -Rock < Paper
-     -Paper < Scissors
-     -Scissors < Rock
-
-            *TIE*
-     -Rock = Rock
-     -Paper = Paper
-     -Scissors = Scissors
-
-    *Put in Rock, Paper, or Scissors*
-     -No Input / Not 1 of 3 variables
-
-             *console.log()*
-     If tie say "You tied! Try again?"
-     If lose say "You Lose! `computerInput` beats `userInput`!"
-     If win say "You Win! `userIput` beats `computerInput`!"
-
-            *Keep in mind*
-     Make userInput case insensitive
-
-            *Functions*
-    -computerPlay: randomly returns either "Rock", "Paper" or "Scissors"
-
-    -playRound: checks userInput and computerInput and returns a string
-    that declares the winner of the round. (see reponses above)
-
-    -game(): Use previous function inside of this one to play a 5 round game that
-    keeps score and reports a winner of loser at the end. 
-
-*/
-
-
+// Randomly generates choice for computer
 
 function computerPlay() {
+    let rps = ['rock', 'paper', 'scissors'];
+    let computerInput = rps[Math.floor(Math.random()*rps.length)];
+    return computerInput;
 
 }
+
+// Plays a single round of RPS and changes scores.
+
+function playRound(playerSelection, computerSelection) {
+       if (playerSelection == computerSelection) {
+              draw++;
+              return 'Tie, great minds think alike!';
+       }
+       else if (playerSelection == 'rock'){
+              if(computerSelection == 'paper'){
+                     computerScore++;
+                     return 'Computer slung Paper. You lose! Paper beats Rock!';
+              }else{
+                     playerScore++;
+                     return 'Computer slung Scissors. You Win! Rock beats Scissors!';
+              }
+       }
+       else if(playerSelection == 'scissors'){
+              if(computerSelection ==='rock'){
+                     computerScore++;
+                     return 'Computer slung Rock. You lose! Rock beats Scissors!';
+              }else{
+                     playerScore++;
+                     return 'Computer slung Paper. You Win! Scissors beats Paper!';
+              }
+       }
+       else if(playerSelection =='paper'){
+              if(computerSelection == 'scissors'){
+                     computerScore++;
+                     return 'Computer slung Scissors. You lose! Scissors beats Paper!';
+              }else{
+                     playerScore++;
+                     return 'Computer slung Rock. You Win! Paper beats Rock!';
+              }
+       }
+}
+
+// simple score updater
+
+function scoreUpdate() {
+       return `The current score is draws = ${draw}, player = ${playerScore}, computer = ${computerScore}.`;
+}
+
+// 5 round game that keeps score (have to call 5 times)
+
+function game() {
+       let sum = draw + playerScore + computerScore;
+       if(sum < 5){
+              return playRound(playerSelect(), computerPlay());
+       }else{
+              return `Gameover! Player = ${playerScore}, Computer = ${computerScore}, Draws = ${draw}`;
+       }
+}
+
+
+
